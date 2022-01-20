@@ -1,4 +1,4 @@
-# Random Commit Generator
+# Random Commit Generated on: 2022-01-20
 
 This code generates random commits for a Git repository. It can be used to generate fake commit history for a repository, or to test Git-related tools and processes.
 
