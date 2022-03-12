@@ -16,4 +16,4 @@ A simple script that generates random commits to a git repository.
 ## Note
 
 - The script uses the current date and time as the starting point for generating random dates.
-##### _05 January 2023_
+##### _03 December 2022_
