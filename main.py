@@ -1,6 +1,6 @@
 import json
 import random
-from datetime import timedelta
+from datetime import datetime, timedelta
 from git import Repo
 
 FILE_PATH = './data.json'
