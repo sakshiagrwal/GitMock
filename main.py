@@ -43,7 +43,7 @@ def write_date_to_readme(date):
     with open('./README.md', 'r') as f:
         lines = f.readlines()
     # Modify the first line (add commit date after this # Random Commit Generated on:)
-    lines[0] = f'# Random Commit Generated on: {date.strftime("%Y-%m-%d")}\n'
+    lines[0] = f'# Random Commit Generated on: {date.strftime("%d %B %Y")}\n'
     # Write the modified contents back to the file
     with open('./README.md', 'w') as f:
         f.writelines(lines)
@@ -60,8 +60,10 @@ for i in range(1000):
     write_date_to_readme(date)
     # Add the file to the staging area and commit it
     repo.git.add(['./README.md'])
-    repo.git.commit('-s', '-m', date.strftime('%Y-%m-%d'), '--date',
-                    date.strftime('%Y-%m-%d %H:%M:%S'))
+    # Print the date to the log
+    print(date)
+    repo.git.commit('-s', '-m', date.strftime('%d-%m-%Y %H:%M:%S'),
+                    '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
 
     # Try to push the commits to the remote repository
     try:
