@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - wip
 
 jobs:
   generate-commits:
@@ -23,5 +23,5 @@ jobs:
         with:
           python-version: 3.8
       - run: |
-          pip install gitpython datetime
+          pip install gitpython datetime emoji emot
           python main.py
