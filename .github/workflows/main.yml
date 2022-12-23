@@ -13,8 +13,9 @@ jobs:
       GIT_COMMITTER_NAME: sakshiagrwal
       GIT_COMMITTER_EMAIL: 81718060+sakshiagrwal@users.noreply.github.com
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+
         with:
           python-version: 3.8
       - run: |
