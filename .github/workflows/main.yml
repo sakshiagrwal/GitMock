@@ -2,7 +2,7 @@ name: Random Commit Generator
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 */12 * * *"
   workflow_dispatch:
   push:
     branches:

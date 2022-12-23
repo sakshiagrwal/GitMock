@@ -9,8 +9,8 @@ FILE_PATH = './data.json'
 # Initialize a Repo object for the current directory
 repo = Repo('./')
 
-# Make only 1 commit to the current branch
-for i in range(1):
+# Make 100 commits to the current branch
+for i in range(100):
     # Generate a random date within the past year
     x = random.randint(0, 54)
     y = random.randint(0, 6)
