@@ -19,7 +19,7 @@ for i in range(1):
     with open(FILE_PATH, 'r') as f:
         lines = f.readlines()
     # Modify the first line
-    lines[0] = f'# Random Commit Generated on: {date.strftime("%Y-%m-%d")}\n'
+    lines[0] = f'# Random Commit Generated on: {date.strftime("%d/%m/%y")}\n'
     # Write the updated content to the file
     with open(FILE_PATH, 'w') as f:
         f.write(''.join(lines))
