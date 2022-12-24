@@ -23,5 +23,5 @@ jobs:
         with:
           python-version: 3.8
       - run: |
-          pip install gitpython datetime emoji emot
+          pip install gitpython datetime
           python main.py

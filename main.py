@@ -1,6 +1,4 @@
 import random
-import emoji
-import emot
 from datetime import datetime, timedelta
 from git import Repo
 
