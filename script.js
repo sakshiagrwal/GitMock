@@ -10,7 +10,14 @@ const FILE_PATH = "./data.json";
  */
 async function makeCommit(n) {
   // If no more commits are needed, push to the repository
-  if (n === 0) return simpleGit().push();
+  if (n === 0) {
+    try {
+      await simpleGit().push();
+    } catch (error) {
+      console.error(`Error pushing commits: ${error}`);
+    }
+    return;
+  }
 
   // Generate random values for the number of weeks and days to add to the date
   const x = Math.floor(crypto.randomBytes(4).readUInt32BE() % 55);
