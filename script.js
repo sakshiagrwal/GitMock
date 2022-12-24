@@ -1,13 +1,14 @@
 const jsonfile = require("jsonfile");
 const simpleGit = require("simple-git");
 const moment = require("moment");
-const random = require("random-js");
+const crypto = require("crypto");
 const FILE_PATH = "./data.json";
 
-const makeCommit = (n) => {
+async function makeCommit(n) {
   if (n === 0) return simpleGit().push();
-  const x = Math.floor(Math.random() * (54 + 1));
-  const y = Math.floor(Math.random() * (6 + 1));
+
+  const x = Math.floor(crypto.randomBytes(4).readUInt32BE() % 55);
+  const y = Math.floor(crypto.randomBytes(4).readUInt32BE() % 7);
   const DATE = moment()
     .subtract(1, "y")
     .add(1, "d")
@@ -18,10 +19,13 @@ const makeCommit = (n) => {
     date: DATE,
   };
   console.log(DATE);
-  jsonfile.writeFile(FILE_PATH, data, () => {
-    simpleGit()
-      .add([FILE_PATH])
-      .commit(DATE, { "--date": DATE }, makeCommit.bind(this, --n));
-  });
-};
+  try {
+    await jsonfile.writeFile(FILE_PATH, data);
+    await simpleGit().add([FILE_PATH]).commit(`${DATE}`, { "--date": DATE });
+    makeCommit(--n);
+  } catch (error) {
+    console.error(`Error making commit: ${error}`);
+  }
+}
+
 makeCommit(2000);
