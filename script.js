@@ -28,4 +28,4 @@ async function makeCommit(n) {
   }
 }
 
-makeCommit(2000);
+makeCommit(20);

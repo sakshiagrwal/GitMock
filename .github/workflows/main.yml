@@ -22,6 +22,6 @@ jobs:
           node-version: 16
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm install random-js jsonfile moment simple-git
+        run: npm i jsonfile moment simple-git
       - name: Run script
         run: node --experimental-modules script.js
