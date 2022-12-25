@@ -13,14 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import json
 import random
 from datetime import datetime, timedelta
 from git import GitCommandError, Repo
 
 
 def generate_random_date():
-    """Generate a random date within the past year."""
+    """
+    Generate a random date within the past year.
+
+    Returns:
+        datetime: A randomly generated date within the past year.
+    """
     week_index = random.randint(0, 52)
     day_index = random.randint(0, 6)
     date = (datetime.now() - timedelta(days=365)) + \
@@ -28,22 +32,22 @@ def generate_random_date():
     return date
 
 
-def write_date_to_file(date, file_path):
-    """Write the given date to the specified data file and print it to the log."""
-    data = {
-        'date': date.strftime('%Y-%m-%d')
-    }
-    try:
-        with open(file_path, 'w') as f:
-            json.dump(data, f)
-    except IOError as e:
-        print(f'Error writing to file: {e}')
-    # Print the date to the log
-    print(date.strftime('%Y-%m-%d'))
+def write_date_to_readme(date):
+    """
+    Modify the first line of the README.md file by adding the commit date.
 
+    Args:
+        date (datetime): The commit date to be added to the file.
+    """
+    # Read the contents of the README.md file
+    with open('./README.md', 'r') as f:
+        lines = f.readlines()
+    # Modify the first line (add commit date after this # Random Commit Generated on:)
+    lines[0] = f'# Random Commit Generated on: {date.strftime("%Y-%m-%d")}\n'
+    # Write the modified contents back to the file
+    with open('./README.md', 'w') as f:
+        f.writelines(lines)
 
-# File path for the data file
-FILE_PATH = './data.json'
 
 # Initialize a Repo object for the current directory
 repo = Repo('./')
@@ -52,11 +56,11 @@ repo = Repo('./')
 for i in range(1000):
     # Generate a random date within the past year
     date = generate_random_date()
-    # Write the date to the data file
-    write_date_to_file(date, FILE_PATH)
+    # Modify the README.md file with the commit date
+    write_date_to_readme(date)
     # Add the file to the staging area and commit it
-    repo.git.add([FILE_PATH])
-    repo.git.commit('-m', date.strftime('%Y-%m-%d'), '--date',
+    repo.git.add(['./README.md'])
+    repo.git.commit('-s', '-m', date.strftime('%Y-%m-%d'), '--date',
                     date.strftime('%Y-%m-%d %H:%M:%S'))
 
     # Try to push the commits to the remote repository
