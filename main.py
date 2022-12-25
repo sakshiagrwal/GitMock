@@ -52,7 +52,6 @@ def write_date_to_readme(date):
 # List of emojis to choose from a hardcoded list
 emojis = ['🎉', '🎊', '🎂', '🎁', '🎄', '🎅', '😂', '❤', '💥', '❄️', '⛄', '⚡', '🌀', '😴', '🌌', '🚣', '⚓', '🚀',
           '😎', '🔮', '📷', '📹', '🎥', '💻', '👾', '🎮', '💣']
-emoji = random.choice(emojis)
 
 # Initialize a Repo object for the current directory
 repo = Repo('./')
@@ -67,6 +66,8 @@ for i in range(1000):
     repo.git.add(['./README.md'])
     # Print the date to the log
     print(date)
+    # Select a random emoji
+    emoji = random.choice(emojis)
     # Set the commit message to include the emoji
     repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
                     '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
