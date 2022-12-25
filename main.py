@@ -25,8 +25,11 @@ def generate_random_date():
     Returns:
         datetime: A randomly generated date within the past year.
     """
+    # Generate a random week index and day index within the past year
     week_index = random.randint(0, 52)
     day_index = random.randint(0, 6)
+
+    # Calculate the date by adding the appropriate number of weeks and days to the current date
     date = (datetime.now() - timedelta(days=365)) + \
         timedelta(days=1 + week_index * 7 + day_index)
     return date
@@ -49,15 +52,19 @@ def write_date_to_readme(date):
         f.writelines(lines)
 
 
-# List of emojis to choose from a hardcoded list
-emojis = ['🎉', '🎊', '🎂', '🎁', '🎄', '🎅', '😂', '❤', '💥', '❄️', '⛄', '⚡', '🌀', '😴', '🌌', '🚣', '⚓', '🚀',
-          '😎', '🔮', '📷', '📹', '🎥', '💻', '👾', '🎮', '💣']
+# Initialize an empty list of emojis
+emojis = []
+
+# Open the emojis.txt file and read the emojis into the list
+with open('emojis.txt', 'r') as f:
+    for line in f:
+        emojis.append(line.strip())
 
 # Initialize a Repo object for the current directory
 repo = Repo('./')
 
 # Make 1000 commits to the current branch
-for i in range(1000):
+for i in range(2):
     # Generate a random date within the past year
     date = generate_random_date()
     # Modify the README.md file with the commit date
