@@ -29,7 +29,7 @@ def generate_random_date():
 
 
 def write_date_to_file(date, file_path):
-    """Write the given date to the specified data file."""
+    """Write the given date to the specified data file and print it to the log."""
     data = {
         'date': date.strftime('%Y-%m-%d')
     }
@@ -38,6 +38,8 @@ def write_date_to_file(date, file_path):
             json.dump(data, f)
     except IOError as e:
         print(f'Error writing to file: {e}')
+    # Print the date to the log
+    print(date.strftime('%Y-%m-%d'))
 
 
 # File path for the data file
@@ -59,7 +61,7 @@ for i in range(1000):
 
     # Try to push the commits to the remote repository
     try:
-        print(repo.git.push(force=True))
+        repo.git.push()
     except GitCommandError as e:
         # Print the error message and exit the loop
         print(f'Error pushing commits: {e}')

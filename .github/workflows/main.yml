@@ -29,14 +29,21 @@ jobs:
     # The job defines a series of steps to execute
     steps:
       # Check out the repository
-      - uses: actions/checkout@v3
+      - name: Check Out Repository
+        uses: actions/checkout@v3
 
       # Set up a Python environment
-      - uses: actions/setup-python@v4
+      - name: Set Up Python Environment
+        uses: actions/setup-python@v4
         with:
           python-version: 3.8
 
-      # Install the gitpython and datetime libraries using pip, and then run the main script
-      - run: |
-          pip install gitpython datetime
+      # Install the gitpython and datetime libraries using pip
+      - name: Installing libraries
+        run: pip install gitpython datetime
+
+      # Run the main script
+      - name: Logs
+        run: |
+          git log --oneline
           python main.py
