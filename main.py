@@ -25,13 +25,14 @@ def generate_random_date():
     Returns:
         datetime: A randomly generated date within the past year.
     """
-    # Generate a random week index and day index within the past year
-    week_index = random.randint(0, 52)
-    day_index = random.randint(0, 6)
+    # Generate a random float within the range [0, 52]
+    week_index = random.uniform(0, 52)
+    # Generate a random float within the range [0, 6]
+    day_index = random.uniform(0, 6)
 
     # Calculate the date by adding the appropriate number of weeks and days to the current date
     date = (datetime.now() - timedelta(days=365)) + \
-        timedelta(days=1 + week_index * 7 + day_index)
+        timedelta(weeks=week_index, days=day_index)
     return date
 
 
