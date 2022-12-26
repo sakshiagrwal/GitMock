@@ -53,17 +53,6 @@ def write_date_to_readme(date):
     with open('./README.md', 'w') as f:
         f.writelines(lines)
 
-
-def read_emojis_from_file(filepath):
-    # Open the emojis.txt file and read the emojis into the list
-    with open(filepath, 'r', encoding='utf-8') as f:
-        for line in f:
-            yield line.strip()
-
-
-# Initialize a generator to read the emojis from the emojis.txt file
-emoji_generator = read_emojis_from_file('emojis.txt')
-
 # Initialize a Repo object for the current directory
 repo = Repo('./')
 
@@ -77,10 +66,7 @@ for i in range(1100):
     repo.git.add(['./README.md'])
     # Print the date to the log
     print(date)
-    # Select the next emoji from the generator
-    emoji = next(emoji_generator)
-    # Set the commit message to include the emoji
-    repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
+    repo.git.commit('-s', '-m', f'{date.strftime("%d-%m-%Y %H:%M:%S")}',
                     '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
 
     # Try to push the commits to the remote repository
