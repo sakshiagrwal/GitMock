@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - py
+      - main
 
 jobs:
   generate-commits:
@@ -44,6 +44,4 @@ jobs:
 
       # Run the main script
       - name: Logs
-        run: |
-          git log --oneline
-          python main.py
+        run: python main.py

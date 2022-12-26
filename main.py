@@ -15,7 +15,8 @@
 
 import random
 from datetime import datetime, timedelta
-from git import GitCommandError, Repo
+from git import GitCommandError
+from git.repo import Repo
 
 
 def generate_random_date():
@@ -53,19 +54,21 @@ def write_date_to_readme(date):
         f.writelines(lines)
 
 
-# Initialize an empty list of emojis
-emojis = []
+def read_emojis_from_file(filepath):
+    # Open the emojis.txt file and read the emojis into the list
+    with open(filepath, 'r', encoding='utf-8') as f:
+        for line in f:
+            yield line.strip()
 
-# Open the emojis.txt file and read the emojis into the list
-with open('emojis.txt', 'r') as f:
-    for line in f:
-        emojis.append(line.strip())
+
+# Initialize a generator to read the emojis from the emojis.txt file
+emoji_generator = read_emojis_from_file('emojis.txt')
 
 # Initialize a Repo object for the current directory
 repo = Repo('./')
 
-# Make 1000 commits to the current branch
-for i in range(2):
+# Make 1100 commits to the current branch
+for i in range(1100):
     # Generate a random date within the past year
     date = generate_random_date()
     # Modify the README.md file with the commit date
@@ -74,8 +77,8 @@ for i in range(2):
     repo.git.add(['./README.md'])
     # Print the date to the log
     print(date)
-    # Select a random emoji
-    emoji = random.choice(emojis)
+    # Select the next emoji from the generator
+    emoji = next(emoji_generator)
     # Set the commit message to include the emoji
     repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
                     '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
