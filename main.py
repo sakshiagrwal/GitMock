@@ -77,9 +77,14 @@ for i in range(1100):
     repo.git.add(['./README.md'])
     # Print the date to the log
     print(date)
-    # Select the next emoji from the generator
-    emoji = next(emoji_generator)
-    # Set the commit message to include the emoji
+    try:
+        # Select the next emoji from the generator
+        emoji = next(emoji_generator)
+    except StopIteration:
+        # Reset the generator if it has been exhausted
+        emoji_generator = read_emojis_from_file('emojis.txt')
+        emoji = next(emoji_generator)
+        # Set the commit message to include the emoji
     repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
                     '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
 
