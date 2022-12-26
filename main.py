@@ -14,9 +14,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import random
+import logging
 from datetime import datetime, timedelta
 from git import GitCommandError
 from git.repo import Repo
+
+
+# Set up a logger with the desired log level and format
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(name)s:%(message)s')
+
+# Create a file handler and add it to the logger
+file_handler = logging.FileHandler('main.log')
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+# You can also add a stream handler to print log messages to the console
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
 
 
 def generate_random_date():
@@ -75,8 +92,8 @@ for i in range(1100):
     write_date_to_readme(date)
     # Add the file to the staging area and commit it
     repo.git.add(['./README.md'])
-    # Print the date to the log
-    print(date)
+    # Log the date
+    logger.info(date)
     try:
         # Select the next emoji from the generator
         emoji = next(emoji_generator)
@@ -84,7 +101,7 @@ for i in range(1100):
         # Reset the generator if it has been exhausted
         emoji_generator = read_emojis_from_file('emojis.txt')
         emoji = next(emoji_generator)
-        # Set the commit message to include the emoji
+    # Set the commit message to include the emoji
     repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
                     '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
 
@@ -92,6 +109,6 @@ for i in range(1100):
     try:
         repo.git.push()
     except GitCommandError as e:
-        # Print the error message and exit the loop
-        print(f'Error pushing commits: {e}')
+        # Log the error message and exit the loop
+        logger.error(f'Error pushing commits: {e}')
         break
