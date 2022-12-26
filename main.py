@@ -62,34 +62,64 @@ def write_date_to_readme(date):
         date (datetime): The commit date to be added to the file.
     """
     # Read the contents of the README.md file
-    with open('./README.md', 'r') as f:
-        lines = f.readlines()
+    try:
+        with open('./README.md', 'r') as f:
+            lines = f.readlines()
+    except IOError as e:
+        logger.error(f'Error reading README.md file: {e}')
+        return
+
     # Modify the first line (add commit date after this # Random Commit Generated on:)
     lines[0] = f'# Random Commit Generated on: {date.strftime("%d %B %Y")}\n'
     # Write the modified contents back to the file
-    with open('./README.md', 'w') as f:
-        f.writelines(lines)
+    try:
+        with open('./README.md', 'w') as f:
+            f.writelines(lines)
+    except IOError as e:
+        logger.error(f'Error writing to README.md file: {e}')
+        return
 
 
 def read_emojis_from_file(filepath):
-    # Open the emojis.txt file and read the emojis into the list
-    with open(filepath, 'r', encoding='utf-8') as f:
-        for line in f:
-            yield line.strip()
+    try:
+        # Open the emojis.txt file and read the emojis into the list
+        with open(filepath, 'r', encoding='utf-8') as f:
+            for line in f:
+                yield line.strip()
+    except IOError as e:
+        logger.error(f'Error reading emojis file {filepath}: {e}')
 
 
 # Initialize a generator to read the emojis from the emojis.txt file
-emoji_generator = read_emojis_from_file('emojis.txt')
+try:
+    emoji_generator = read_emojis_from_file('emojis.txt')
+except IOError as e:
+    logger.error(f'Error initializing emoji generator: {e}')
+    exit(1)
 
 # Initialize a Repo object for the current directory
-repo = Repo('./')
+try:
+    repo = Repo('./')
+except Exception as e:
+    logger.error(f'Error initializing Repo object: {e}')
+    exit(1)
 
 # Make 1100 commits to the current branch
 for i in range(1100):
     # Generate a random date within the past year
-    date = generate_random_date()
-    # Modify the README.md file with the commit date
-    write_date_to_readme(date)
+    try:
+        date = generate_random_date()
+    except Exception as e:
+        logger.error(f'Error generating random date: {e}')
+        continue
+
+        # Modify the README.md file with the commit date
+    try:
+        write_date_to_readme(date)
+    except Exception as e:
+        logger.error(f'Error modifying README.md file: {e}')
+        continue
+
     # Add the file to the staging area and commit it
     repo.git.add(['./README.md'])
     # Log the date
@@ -99,16 +129,27 @@ for i in range(1100):
         emoji = next(emoji_generator)
     except StopIteration:
         # Reset the generator if it has been exhausted
-        emoji_generator = read_emojis_from_file('emojis.txt')
+        try:
+            emoji_generator = read_emojis_from_file('emojis.txt')
+        except IOError as e:
+            logger.error(f'Error resetting emoji generator: {e}')
+            continue
         emoji = next(emoji_generator)
+    except Exception as e:
+        logger.error(f'Error selecting emoji: {e}')
+        continue
+
     # Set the commit message to include the emoji
-    repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
-                    '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
+    try:
+        repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
+                        '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
+    except Exception as e:
+        logger.error(f'Error committing changes: {e}')
+        continue
 
     # Try to push the commits to the remote repository
     try:
-        repo.git.push()
+        repo.git.push('origin', 'py')
     except GitCommandError as e:
-        # Log the error message and exit the loop
+        # Log the error message and continue making commits
         logger.error(f'Error pushing commits: {e}')
-        break
