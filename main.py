@@ -121,7 +121,7 @@ for i in range(1100):
         continue
 
     # Add the file to the staging area and commit it
-    repo.git.add(['./README.md'])
+    repo.git.add(['./README.md', './main.log'])
     # Log the date
     logger.info(date)
     try:
@@ -141,7 +141,7 @@ for i in range(1100):
 
     # Set the commit message to include the emoji
     try:
-        repo.git.commit('-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
+        repo.git.commit('-a', '-s', '-m', f'{emoji} {date.strftime("%d-%m-%Y %H:%M:%S")}',
                         '--date', date.strftime('%d-%m-%Y %H:%M:%S'))
     except Exception as e:
         logger.error(f'Error committing changes: {e}')
