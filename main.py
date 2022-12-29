@@ -81,10 +81,12 @@ def write_date_to_readme(date):
 
 
 def read_emojis_from_file(filepath):
+    logger.debug(f'Reading emojis from file {filepath}')
     try:
         # Open the emojis.txt file and read the emojis into the list
         with open(filepath, 'r', encoding='utf-8') as f:
             for line in f:
+                logger.debug(f'Yielding emoji {line.strip()}')
                 yield line.strip()
     except IOError as e:
         logger.error(f'Error reading emojis file {filepath}: {e}')
@@ -106,6 +108,9 @@ except Exception as e:
 
 # Make 1100 commits to the current branch
 for i in range(1100):
+    # Re-initialize the generator at the beginning of each iteration
+    emoji_generator = read_emojis_from_file('emojis.txt')
+
     # Generate a random date within the past year
     try:
         date = generate_random_date()
@@ -126,7 +131,7 @@ for i in range(1100):
     logger.info(date)
     try:
         # Select the next emoji from the generator
-        emoji = next(emoji_generator)
+        emoji = random.choice(list(emoji_generator))
     except StopIteration:
         # Reset the generator if it has been exhausted
         try:
@@ -134,7 +139,7 @@ for i in range(1100):
         except IOError as e:
             logger.error(f'Error resetting emoji generator: {e}')
             continue
-        emoji = next(emoji_generator)
+        emoji = random.choice(list(emoji_generator))
     except Exception as e:
         logger.error(f'Error selecting emoji: {e}')
         continue
