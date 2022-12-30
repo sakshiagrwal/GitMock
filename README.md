@@ -1,22 +1,19 @@
 # Random Commit Generated on:
 
-This code generates random commits for a Git repository. It can be used to generate fake commit history for a repository, or to test Git-related tools and processes.
-
-## Requirements
-
-- Python 3.6 or higher
-- The `gitpython` and `datetime` modules
+A simple script that generates random commits to a git repository.
 
 ## Usage
 
-1. Clone the repository
-2. Install the required modules: `pip install gitpython datetime`
-3. Run the script: `python main.py`
+1. Install the required dependencies: `pip install gitpython emoji`
+2. Run the script: `python main.py`
 
-## Configuration
+## Customization
 
-The number of commits to generate can be modified by changing the value of `n` in the `make_commit` function.
+- You can change the number of commits made by modifying the `range()` function in the script
+- You can change the file that is being committed by modifying the file path in the `write_date_to_readme()` and `repo.git.add()` functions
+- You can change the emoji list by modifying the `emoji_list` variable
 
-## Disclaimer
+## Note
 
-Use this code at your own risk. It is intended for testing purposes only and should not be used to manipulate or mislead others.
+- The script uses the current date and time as the starting point for generating random dates.
+- Make sure to use the correct file path for the repository and the file you want to commit.
