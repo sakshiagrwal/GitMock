@@ -23,24 +23,6 @@ def generate_random_date():
     return date
 
 
-def write_date_to_readme(date):
-    """
-    Modify the first line of the README.md file by adding the commit date.
-
-    Args:
-        date (datetime): The commit date to be added to the file.
-    """
-    # Read the contents of the README.md file
-    with open("./README.md", "r", encoding="utf-8") as f:
-        lines = f.readlines()
-
-    # Modify the first line (add commit date after this # Random Commit Generated on:)
-    lines[0] = f'# Random Commit Generated on: {date.strftime("%d %B %Y")}\n'
-    # Write the modified contents back to the file
-    with open("./README.md", "w", encoding="utf-8") as f:
-        f.writelines(lines)
-
-
 # Initialize the Repo object
 repo = Repo("./")
 
@@ -52,8 +34,14 @@ for i in range(5):
     # Generate a random date within the past year
     random_date = generate_random_date()
 
-    # Modify the README.md file with the commit date
-    write_date_to_readme(random_date)
+    # Modify the line 19 of the README.md file with the commit date
+    with open("./README.md", "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    lines[18] = f'##### _{random_date.strftime("%d %B %Y")}_'
+
+    with open("./README.md", "w", encoding="utf-8") as f:
+        f.writelines(lines)
 
     # Add the file to the staging area and commit it
     print(random_date)
