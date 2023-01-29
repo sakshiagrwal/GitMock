@@ -44,8 +44,8 @@ def write_date_to_readme(date):
 # Initialize the Repo object
 repo = Repo("./")
 
-# Create a list of emojis
-emoji_list = [c for c in emoji.EMOJI_DATA]
+# Create a list of single emojis
+emoji_list = [c for c in emoji.EMOJI_DATA if len(c) == 1]
 
 # Make 5 commits to the current branch
 for i in range(5):
