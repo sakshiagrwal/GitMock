@@ -1,19 +1,19 @@
-# Random Commit Generated on: 01 February 2022
+# Git History Generator
 
-A simple script that generates random commits to a git repository.
+This repository contains a script for generating random Git commits. The script modifies the 19th line of the `README.md` file in the repository and adds the changes to the Git history with a random date and a randomly chosen emoji as the commit message.
 
 ## Usage
 
 1. Install the required dependencies: `pip install gitpython emoji`
-2. Run the script: `python main.py`
+2. Run the script: `python main.py ./ 50`
+   (Change the value of `50` to the desired number of commits)
 
-## Customization
+## Manual Trigger with GitHub Actions
 
-- You can change the number of commits made by modifying the `range()` function in the script
-- You can change the file that is being committed by modifying the file path in the `write_date_to_readme()` and `repo.git.add()` functions
-- You can change the emoji list by modifying the `emoji_list` variable
+You can also use [GitHub Actions](https://github.com/features/actions) to generate commits. The workflow is defined in the `.github/workflows/main.yml` file.
 
-## Note
+To trigger the workflow manually, navigate to the "Actions" tab in your GitHub repository and click on the "Run workflow" button. Then, enter the desired number of commits in the "commits" input field, or leave it as "5" to use the default value.
 
-- The script uses the current date and time as the starting point for generating random dates.
-##### _12 April 2022_
+#
+
+##### _11 September 2022_

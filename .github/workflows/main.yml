@@ -4,19 +4,21 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
-  push:
-    branches:
-      - py
+    inputs:
+      commits:
+        description: The number of commits to generate
+        default: "5"
+
+env:
+  GIT_AUTHOR_NAME: sakshiagrwal
+  GIT_AUTHOR_EMAIL: 81718060+sakshiagrwal@users.noreply.github.com
+  GIT_COMMITTER_NAME: sakshiagrwal
+  GIT_COMMITTER_EMAIL: 81718060+sakshiagrwal@users.noreply.github.com
+  DEFAULT_COMMITS: "5"
 
 jobs:
   generate-commits:
     runs-on: ubuntu-latest
-
-    env:
-      GIT_AUTHOR_NAME: sakshiagrwal
-      GIT_AUTHOR_EMAIL: 81718060+sakshiagrwal@users.noreply.github.com
-      GIT_COMMITTER_NAME: sakshiagrwal
-      GIT_COMMITTER_EMAIL: 81718060+sakshiagrwal@users.noreply.github.com
 
     steps:
       - name: Checkout Repository
@@ -27,8 +29,10 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Installing libraries
-        run: pip install gitpython emoji
+      - name: Install Libraries
+        run: |
+          pip install gitpython emoji
 
       - name: Logs
-        run: python main.py
+        run: |
+          python main.py ./ "${{ inputs.commits || env.DEFAULT_COMMITS }}"
