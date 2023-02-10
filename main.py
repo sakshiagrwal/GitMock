@@ -84,6 +84,8 @@ def main(repo_path, num_commits):
                         random_date.strftime("%d-%m-%Y %H:%M:%S"),
                     ],
                     check=True,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
                 )
             except subprocess.CalledProcessError as exc:
                 print(f"Error committing changes: {exc}")
