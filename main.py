@@ -58,7 +58,7 @@ def main(repo_path, num_commits):
         random_emoji = random.choice(emoji_list)
 
         # Update the last line in the lines list
-        lines[last_line_index] = f"<sub><sup>Random commit date: {random_date.strftime('%d-%m-%Y %H:%M:%S')}</sup></sub>"
+        lines[last_line_index] = f"<sub><strong><em>Random commit date: {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}</em></strong></sub>"
 
         # Write the lines back to the README file
         with open(readme_file, "w", encoding="utf-8") as file:
@@ -76,7 +76,7 @@ def main(repo_path, num_commits):
                     "-a",
                     "-s",
                     "-m",
-                    f"{random_emoji} {random_date.strftime('%d-%m-%Y %H:%M:%S')}",
+                    f"{random_emoji} {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}",
                     "--date",
                     random_date.strftime("%d-%m-%Y %H:%M:%S"),
                 ],
