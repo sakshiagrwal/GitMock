@@ -4,7 +4,7 @@ This repository contains a script for generating random Git commits. The script 
 
 ## Usage
 
-1. Install the required dependencies: `pip install gitpython emoji tqdm`
+1. Install the required dependencies: `pip install gitpython emoji`
 2. Run the script: `python main.py ./ 5` (Change the value of `5` to the desired number of commits)
 
 ## Manual Trigger with GitHub Actions
