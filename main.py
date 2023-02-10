@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import os
 import subprocess
 import emoji
+from tqdm import tqdm
 
 
 def generate_random_date():
@@ -51,6 +52,8 @@ def main(repo_path, num_commits):
     # Get the index of the last line
     last_line_index = len(lines) - 1
 
+    # Create a progress bar using tqdm
+    with tqdm(total=num_commits) as pbar:
     # Loop to make the specified number of commits
     for _ in range(num_commits):
         # Generate a random date and emoji
@@ -85,6 +88,9 @@ def main(repo_path, num_commits):
         except subprocess.CalledProcessError as exc:
             print(f"Error committing changes: {exc}")
             continue
+
+            # Update the progress bar
+            pbar.update(1)
 
     # Push the commits to the remote repository
     os.system("git push origin py")
