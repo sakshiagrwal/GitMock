@@ -54,40 +54,40 @@ def main(repo_path, num_commits):
 
     # Create a progress bar using tqdm
     with tqdm(total=num_commits) as pbar:
-    # Loop to make the specified number of commits
-    for _ in range(num_commits):
-        # Generate a random date and emoji
-        random_date = generate_random_date()
-        random_emoji = random.choice(emoji_list)
+        # Loop to make the specified number of commits
+        for _ in range(num_commits):
+            # Generate a random date and emoji
+            random_date = generate_random_date()
+            random_emoji = random.choice(emoji_list)
 
-        # Update the last line in the lines list
-        lines[last_line_index] = f"{random_date.strftime('%d %B %Y')}\n"
+            # Update the last line in the lines list
+            lines[last_line_index] = f"{random_date.strftime('%d %B %Y')}\n"
 
-        # Write the lines back to the README file
-        with open(readme_file, "w", encoding="utf-8") as file:
-            file.writelines(lines)
+            # Write the lines back to the README file
+            with open(readme_file, "w", encoding="utf-8") as file:
+                file.writelines(lines)
 
-        # Add the README file to the Git index
-        subprocess.run(["git", "add", readme_file], check=True)
+            # Add the README file to the Git index
+            subprocess.run(["git", "add", readme_file], check=True)
 
-        # Create the commit with the commit message and random date
-        try:
-            subprocess.run(
-                [
-                    "git",
-                    "commit",
-                    "-a",
-                    "-s",
-                    "-m",
-                    f"{random_emoji} {random_date.strftime('%d-%m-%Y %H:%M:%S')}",
-                    "--date",
-                    random_date.strftime("%d-%m-%Y %H:%M:%S"),
-                ],
-                check=True,
-            )
-        except subprocess.CalledProcessError as exc:
-            print(f"Error committing changes: {exc}")
-            continue
+            # Create the commit with the commit message and random date
+            try:
+                subprocess.run(
+                    [
+                        "git",
+                        "commit",
+                        "-a",
+                        "-s",
+                        "-m",
+                        f"{random_emoji} {random_date.strftime('%d-%m-%Y %H:%M:%S')}",
+                        "--date",
+                        random_date.strftime("%d-%m-%Y %H:%M:%S"),
+                    ],
+                    check=True,
+                )
+            except subprocess.CalledProcessError as exc:
+                print(f"Error committing changes: {exc}")
+                continue
 
             # Update the progress bar
             pbar.update(1)
