@@ -12,18 +12,18 @@ import emoji
 
 def generate_random_date():
     """
-    Generate a random date within the past year.
+    Generate a random datetime within the past year.
     Returns:
-        datetime: A randomly generated date within the past year.
+        datetime: A randomly generated datetime within the past year.
     """
-    # Generate a random float within the range [0, 52]
-    week_index = random.randint(0, 52)
-    # Generate a random float within the range [0, 6]
-    day_index = random.randint(0, 6)
+    # Generate a random number of seconds within the past year (31,536,000 seconds)
+    random_seconds = random.randint(0, 31536000)
+    # Generate a random number of microseconds within one second (1,000,000 microseconds)
+    random_microseconds = random.randint(0, 1000000)
 
-    # Calculate the date by adding the appropriate number of weeks and days to the current date
-    date = (datetime.now() - timedelta(days=365)) + timedelta(
-        weeks=week_index, days=day_index
+    # Calculate the datetime by subtracting the appropriate number of seconds and microseconds from the current datetime
+    date = datetime.now() - timedelta(
+        seconds=random_seconds, microseconds=random_microseconds
     )
     return date
 
@@ -39,7 +39,7 @@ def main(repo_path, num_commits):
     # Create a list of single emojis
     emoji_list = [c for c in emoji.EMOJI_DATA if len(c) == 1]
     # Join the repository path and the README file name
-    readme_file = os.path.join(repo_path, "README.md")
+    readme_file = repo_path + "/README.md"
 
     # Change the current working directory to the repository path
     os.chdir(repo_path)
@@ -58,7 +58,9 @@ def main(repo_path, num_commits):
         random_emoji = random.choice(emoji_list)
 
         # Update the last line in the lines list
-        lines[last_line_index] = f"<sub><strong><em>Random commit date: {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}</em></strong></sub>"
+        lines[
+            last_line_index
+        ] = f"<sub><strong><em>Random commit date: {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}</em></strong></sub>"
 
         # Write the lines back to the README file
         with open(readme_file, "w", encoding="utf-8") as file:
@@ -69,7 +71,7 @@ def main(repo_path, num_commits):
 
         # Create the commit with the commit message and random date
         try:
-            subprocess.run(
+            subprocess.check_output(
                 [
                     "git",
                     "commit",
@@ -80,9 +82,7 @@ def main(repo_path, num_commits):
                     "--date",
                     random_date.strftime("%d-%m-%Y %H:%M:%S"),
                 ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
+                stderr=subprocess.STDOUT,
             )
         except subprocess.CalledProcessError as exc:
             print(f"Error committing changes: {exc}")
