@@ -71,7 +71,7 @@ def main(repo_path, num_commits):
 
         # Create the commit with the commit message and random date
         try:
-            subprocess.check_output(
+            subprocess.run(
                 [
                     "git",
                     "commit",
@@ -82,7 +82,6 @@ def main(repo_path, num_commits):
                     "--date",
                     random_date.strftime("%d-%m-%Y %H:%M:%S"),
                 ],
-                stderr=subprocess.STDOUT,
             )
         except subprocess.CalledProcessError as exc:
             print(f"Error committing changes: {exc}")
