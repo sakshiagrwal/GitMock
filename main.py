@@ -36,8 +36,8 @@ def main(repo_path, num_commits):
     :param num_commits: The number of commits to make.
     :return: None
     """
-    # Create a list of single emojis
-    emoji_list = [c for c in emoji.EMOJI_DATA if len(c) == 1]
+    # Create a list of supported single emojis
+    emoji_list = [c for c in emoji.EMOJI_DATA if len(c) == 1 and emoji.emoji_count(c) == 1]
     # Join the repository path and the README file name
     readme_file = repo_path + "/README.md"
 
