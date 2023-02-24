@@ -7,16 +7,8 @@ import os
 import random
 import subprocess
 from datetime import datetime, timedelta
+import emoji
 from tqdm import tqdm
-
-
-def generate_random_gitmoji():
-    """
-    Generate a random gitmoji from the gitmoji-cli package.
-    """
-    output = subprocess.check_output(["gitmoji", "-l"]).decode().strip()
-    gitmojis = [line.split()[0] for line in output.split("\n")[1:]]
-    return random.choice(gitmojis)
 
 
 def generate_random_date():
@@ -38,6 +30,11 @@ def main(repo_path, num_commits):
     :param repo_path: The path to the Git repository.
     :param num_commits: The number of commits to make.
     """
+    # Create a list of supported single emojis
+    emoji_list = [
+        c for c in emoji.EMOJI_DATA if len(c) == 1 and emoji.emoji_count(c) == 1
+    ]
+
     # Join the repository path and the README file name
     readme_file = os.path.join(repo_path, "README.md")
 
@@ -55,9 +52,9 @@ def main(repo_path, num_commits):
     with tqdm(total=num_commits) as pbar:
         # Loop to make the specified number of commits
         for _ in range(num_commits):
-            # Generate a random date and gitmoji
+            # Generate a random date and emoji
             random_date = generate_random_date()
-            random_gitmoji = generate_random_gitmoji()
+            random_emoji = random.choice(emoji_list)
 
             # Update the last line in the lines list
             lines[last_line_index] = (
@@ -81,7 +78,7 @@ def main(repo_path, num_commits):
                         "-a",
                         "-s",
                         "-m",
-                        f"{random_gitmoji} {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}",
+                        f"{random_emoji} {random_date.strftime('%d-%m-%Y %I:%M:%S %p')}",
                         "--date",
                         random_date.strftime("%d-%m-%Y %H:%M:%S"),
                     ],

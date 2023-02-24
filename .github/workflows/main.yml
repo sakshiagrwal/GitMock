@@ -29,15 +29,9 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
       - name: Install Libraries
         run: |
-          npm install -g gitmoji-cli
-          pip install gitpython tqdm
+          pip install gitpython emoji tqdm
 
       - name: Logs
         run: |
