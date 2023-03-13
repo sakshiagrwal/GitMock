@@ -1,6 +1,6 @@
 import os
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from git import Repo, Actor
 
 # Get the current user's profile directory
@@ -31,6 +31,9 @@ commit_dates = [start_date + timedelta(days=random.randrange(days_between_dates)
 
 # Loop through the commit dates and make random commits
 for commit_date in commit_dates:
+    # Set timezone information to UTC
+    commit_date = commit_date.replace(tzinfo=timezone.utc)
+    
     # Update the README file
     readme_file = os.path.join(local_repo_path, "README.md")
     with open(readme_file, "a") as f:
