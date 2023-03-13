@@ -14,8 +14,8 @@ remote_repo_url = "https://github.com/username/repo.git"
 repo = Repo(local_repo_path)
 
 # Specify the author and committer information
-author = Actor("Your Name", "youremail@example.com")
-committer = Actor("Your Name", "youremail@example.com")
+author = Actor("chrisl7", "wandersonrodriguesf1@gmail.com")
+committer = Actor("parixshit", "parikshit.tunlr@slmail.me")
 
 # Generate random commit dates
 start_date = datetime(2020, 1, 1)
