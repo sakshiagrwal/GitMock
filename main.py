@@ -3,8 +3,11 @@ import random
 from datetime import datetime, timedelta
 from git import Repo, Actor
 
+# Get the current user's profile directory
+userprofile = os.environ.get('USERPROFILE')
+
 # Specify the local and remote repository paths
-local_repo_path = "/path/to/local/repo"
+local_repo_path = os.path.join(userprofile, 'Desktop', 'TestRepo')
 remote_repo_url = "https://github.com/username/repo.git"
 
 # Create a GitPython repository object
